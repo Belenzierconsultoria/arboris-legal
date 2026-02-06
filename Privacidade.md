@@ -126,7 +126,7 @@ O tratamento de seus dados pessoais é realizado com base nas seguintes hipótes
 #### Armazenamento Local:
 - ✅ Todos os projetos, indivíduos, fotos e dados são salvos no banco de dados local do dispositivo (SQLite)
 - ✅ Os dados permanecem apenas no seu dispositivo
-- ✅ **NÃO** enviamos seus dados para servidores externos ou nuvem
+- ✅ **NÃO** enviamos seus dados para servidores externos ou nuvem, eexceto no caso de recursos de sincronização em nuvem são opcionais e exclusivos para assinantes dos planos Pro/Enterprise, mediante ativação manual pelo usuário.
 - ✅ Você tem controle total sobre seus dados
 
 #### Backup (Futuro - Opcional):
