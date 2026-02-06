@@ -53,9 +53,8 @@ Concedemos a você uma licença **limitada, não exclusiva, intransferível e re
 PLANO GRATUITO - "STARTER"
 Preço: R$ 0 (Forever Free)
 Funcionalidades:
-    • ✅ 1 projeto ativo por vez 
+    • ✅ 3 projetos 
     • ✅ Até 50 indivíduos por projeto 
-    • ✅ 1 método de levantamento (escolher) 
     • ✅ Banco de 30 espécies 
     • ✅ Cálculos básicos (DAP, Volume) 
     • ✅ Exportação CSV 
@@ -256,7 +255,7 @@ Podemos:
 
 ### 12.1. Canais
 
-**E-mail:** belenzierconsultoria@gmal.com 
+**E-mail:** belenzierconsultoria@gmail.com 
 **Assunto:** "Suporte - Arboris"
 
 ### 12.2. Níveis de Suporte
