@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual do Usuário — Arboris</title>
+<style>
+  :root {
+    --green: #2E7D32;
+    --green-light: #4CAF50;
+    --green-bg: #E8F5E9;
+    --green-border: #A5D6A7;
+    --text: #1a1a1a;
+    --text-sec: #555;
+    --bg: #f9f9f9;
+    --card: #ffffff;
+    --border: #e0e0e0;
+    --warning-bg: #FFF8E1;
+    --warning-border: #FFB300;
+    --tip-bg: #E3F2FD;
+    --tip-border: #1976D2;
+    --info-bg: #F3E5F5;
+    --info-border: #7B1FA2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--green);
+    color: white;
+    padding: 28px 20px 22px;
+    text-align: center;
+  }
+  .header-icon { font-size: 40px; margin-bottom: 8px; }
+  .header h1  { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+  .header p   { font-size: 13px; opacity: 0.85; margin-top: 6px; }
+
+  /* ── Sumário ── */
+  .toc {
+    background: var(--card);
+    margin: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .toc-title {
+    background: var(--green-bg);
+    color: var(--green);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--green-border);
+  }
+  .toc ol { padding: 12px 16px 12px 32px; }
+  .toc li { margin: 5px 0; }
+  .toc a  { color: var(--green); text-decoration: none; font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* ── Seções ── */
+  .section {
+    background: var(--card);
+    margin: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--green);
+    color: white;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .section-header .num {
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 13px;
+    margin-right: 8px;
+  }
+  .section-body { padding: 16px 18px; }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+    margin: 20px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--green-bg);
+  }
+  h3:first-child { margin-top: 4px; }
+
+  p  { margin: 8px 0; color: var(--text); }
+  ul, ol { padding-left: 20px; margin: 8px 0; }
+  li { margin: 5px 0; }
+  strong { color: var(--text); }
+  code {
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 13px;
+    font-family: monospace;
+  }
+
+  /* ── Tabelas ── */
+  .table-wrap { overflow-x: auto; margin: 12px 0; border-radius: 8px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    background: var(--green-bg);
+    color: var(--green);
+    font-weight: 700;
+    padding: 9px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--green-border);
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafafa; }
+
+  /* ── Callouts ── */
+  .callout {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    border-left: 4px solid;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .callout-warn  { background: var(--warning-bg); border-color: var(--warning-border); }
+  .callout-tip   { background: var(--tip-bg);     border-color: var(--tip-border); }
+  .callout-info  { background: var(--info-bg);    border-color: var(--info-border); }
+  .callout-green { background: var(--green-bg);   border-color: var(--green-light); }
+  .callout strong { display: block; margin-bottom: 4px; }
+
+  /* ── Lista de pacotes ── */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .pkg-item {
+    background: var(--green-bg);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12.5px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  /* ── Tabs dos gráficos ── */
+  .tab-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+  .tab-item {
+    background: var(--green-bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-left: 4px solid var(--green-light);
+  }
+  .tab-item strong { color: var(--green); }
+
+  /* ── Fórmulas ── */
+  .formula {
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: monospace;
+    font-size: 13.5px;
+    margin: 4px 0;
+    color: #333;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    color: var(--text-sec);
+    font-size: 12px;
+    padding: 24px 20px 40px;
+  }
+
+  /* ── Separador entre h3 ── */
+  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-icon">🌳</div>
+  <h1>ARBORIS</h1>
+  <p>Manual do Usuário · Versão 1.3.5 · © 2026 Belenzier Consultoria</p>
+  <p style="margin-top:4px;opacity:0.7;">Para uso em campo, 100% offline, Android</p>
+</div>
+
+<!-- Sumário -->
+<div class="toc">
+  <div class="toc-title">📋 Sumário</div>
+  <ol>
+    <li><a href="#s1">Introdução</a></li>
+    <li><a href="#s2">Primeiros Passos</a></li>
+    <li><a href="#s3">Criando e Gerenciando Projetos</a></li>
+    <li><a href="#s4">Métodos de Levantamento</a></li>
+    <li><a href="#s5">Registrando Indivíduos</a></li>
+    <li><a href="#s6">Banco de Espécies</a></li>
+    <li><a href="#s7">Área de Estudo</a></li>
+    <li><a href="#s8">Mapas e GPS</a></li>
+    <li><a href="#s9">Resultados, Cálculos e Gráficos</a></li>
+    <li><a href="#s10">Histórico de Edições</a></li>
+    <li><a href="#s11">Relatórios</a></li>
+    <li><a href="#s12">Central de Exportação</a></li>
+    <li><a href="#s13">Segurança e Privacidade</a></li>
+    <li><a href="#s14">Perguntas Frequentes</a></li>
+    <li><a href="#s15">Referências Técnicas</a></li>
+  </ol>
+</div>
+
+
+<!-- 1. Introdução -->
+<div class="section" id="s1">
+  <div class="section-header"><span class="num">1</span> Introdução</div>
+  <div class="section-body">
+    <p>O Arboris é um aplicativo Android desenvolvido para auxiliar engenheiros florestais, biólogos, técnicos ambientais e consultores na realização de inventários e levantamentos fitossociológicos diretamente em campo, sem necessidade de conexão com a internet para a execução do levantamento florestal.</p>
+    <div class="callout callout-info">
+      <strong>ℹ️ Sobre a conexão com internet</strong>
+      A internet é necessária apenas para o download dos bancos de espécies (recomenda-se fazer previamente ao levantamento) e para visualização da imagem de satélite do mapa. A captura de coordenadas GPS dos indivíduos não depende de internet.
+    </div>
+
+    <h3>1.1 O que o Arboris faz</h3>
+    <ul>
+      <li>Registra indivíduos arbóreos com espécie, DAP, CAP, altura, condição e coordenadas GPS</li>
+      <li>Suporta 4 métodos de levantamento: Árvores Isoladas, Censo Florestal, Parcelas Fixas e Ponto-Quadrante (PCQM)</li>
+      <li>Calcula automaticamente índices fitossociológicos: DA, DR, FA, FR, DoA, DoR, VC%, VI, VIA, Shannon H', Pielou J', Simpson</li>
+      <li>Calcula a Suficiência Amostral em tempo real durante o levantamento</li>
+      <li>Gera relatórios técnicos em Word (.docx) e PDF prontos para entrega a órgãos ambientais</li>
+      <li>Exporta dados em CSV, KML, HTML com gráficos e backup ZIP completo</li>
+      <li>Funciona 100% offline — todos os dados ficam armazenados localmente no dispositivo</li>
+    </ul>
+
+    <h3>1.2 Planos disponíveis</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Recurso</th><th>FREE</th><th>PRO</th></tr>
+        <tr><td>Projetos</td><td>3 vitalícios</td><td>Ilimitados</td></tr>
+        <tr><td>Indivíduos por projeto</td><td>Ilimitados</td><td>Ilimitados</td></tr>
+        <tr><td>Exportação CSV básica</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Cálculos fitossociológicos</td><td>—</td><td>✓</td></tr>
+        <tr><td>Relatório Técnico Word/PDF</td><td>—</td><td>✓</td></tr>
+        <tr><td>Relatório Fotográfico</td><td>—</td><td>✓</td></tr>
+        <tr><td>Gráficos avançados</td><td>—</td><td>✓</td></tr>
+        <tr><td>Backup ZIP completo</td><td>—</td><td>✓</td></tr>
+        <tr><td>Exportação KML e SINAFLOR</td><td>—</td><td>✓</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- 2. Primeiros Passos -->
+<div class="section" id="s2">
+  <div class="section-header"><span class="num">2</span> Primeiros Passos</div>
+  <div class="section-body">
+    <h3>2.1 Instalação</h3>
+    <ul>
+      <li>Baixe o Arboris na <strong>Google Play Store</strong> buscando por "Arboris Inventário Florestal"</li>
+      <li>Abra o aplicativo e leia os Termos de Uso e a Política de Privacidade</li>
+      <li>Marque a caixa "Li e aceito" e toque em <strong>Aceitar e Continuar</strong></li>
+      <li>Siga o tutorial inicial (Onboarding) para conhecer as funcionalidades</li>
+    </ul>
+    <div class="callout callout-warn">
+      <strong>⚠️ Importante</strong>
+      Permita o acesso à câmera, galeria e localização GPS quando solicitado. Sem essas permissões, o registro de fotos e coordenadas não funcionará.
+    </div>
+
+    <h3>2.2 Modo Escuro</h3>
+    <p>O Arboris acompanha automaticamente o tema do sistema Android. Para ativar:</p>
+    <ul>
+      <li>Acesse <strong>Configurações do Android → Tela → Tema Escuro</strong></li>
+      <li>O app mudará para o modo escuro imediatamente</li>
+    </ul>
+    <p>Útil em campo para economia de bateria e melhor visibilidade em ambientes iluminados.</p>
+  </div>
+</div>
+
+
+<!-- 3. Projetos -->
+<div class="section" id="s3">
+  <div class="section-header"><span class="num">3</span> Criando e Gerenciando Projetos</div>
+  <div class="section-body">
+    <h3>3.1 Criar novo projeto</h3>
+    <p>Na tela inicial, toque em <strong>+ Criar Novo Projeto</strong> e preencha:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Campo</th><th>Descrição</th><th>Obrigatório</th></tr>
+        <tr><td>Nome do Projeto</td><td>Identificação do levantamento</td><td>Sim</td></tr>
+        <tr><td>Descrição</td><td>Observações gerais</td><td>Não</td></tr>
+        <tr><td>Cliente</td><td>Nome do proprietário ou contratante</td><td>Não</td></tr>
+        <tr><td>Responsável Técnico</td><td>Engenheiro ou biólogo responsável</td><td>Não</td></tr>
+        <tr><td>Município/Estado</td><td>Localização do empreendimento</td><td>Não</td></tr>
+        <tr><td>Método de Levantamento</td><td>Ver seção 4</td><td>Sim</td></tr>
+      </table>
+    </div>
+    <div class="callout callout-tip">
+      <strong>💡 Dica</strong>
+      O método de levantamento não pode ser alterado após a criação do projeto. Escolha com atenção antes de confirmar.
+    </div>
+
+    <h3>3.2 Hub Central do projeto</h3>
+    <p>Após criar ou abrir um projeto, você acessa o <strong>Hub Central</strong> com as seções:</p>
+    <ul>
+      <li><strong>Levantamento Fitossociológico</strong> — acesso direto ao registro de indivíduos</li>
+      <li><strong>Configurações do Projeto</strong> — DAP mínimo, fator forma, fator de conversão e área total</li>
+      <li><strong>Área de Estudo</strong></li>
+      <li><strong>Banco de Espécies</strong></li>
+      <li><strong>Bancos por Fitofisionomia</strong> — requer internet para download</li>
+      <li><strong>Análise</strong> — Resultados, Relatórios Word/PDF, Exportação</li>
+      <li><strong>Visualização</strong> — Mapa Interativo, Pontos de Interesse, Gráficos</li>
+    </ul>
+
+    <h3>3.3 Configurações do projeto</h3>
+    <p>Acesse <strong>Hub → Configurações do Projeto</strong> para ajustar:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Parâmetro</th><th>Padrão</th><th>Descrição</th></tr>
+        <tr><td>DAP Mínimo de Inclusão</td><td>5,0 cm</td><td>Indivíduos abaixo deste valor são excluídos dos cálculos</td></tr>
+        <tr><td>Fator de Forma</td><td>0,7</td><td>Coeficiente para cálculo de volume</td></tr>
+        <tr><td>Fator de Conversão</td><td>1,4</td><td>Conversão de volume sólido (m³) para estéreo (mst)</td></tr>
+        <tr><td>Área Total (ha)</td><td>—</td><td>Obrigatório para Censo Florestal</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- 4. Métodos -->
+<div class="section" id="s4">
+  <div class="section-header"><span class="num">4</span> Métodos de Levantamento</div>
+  <div class="section-body">
+    <h3>4.1 Árvores Isoladas</h3>
+    <p>Indicado para supressão de árvores individuais (licenciamento ambiental). Cada indivíduo é registrado individualmente sem vínculo a parcelas.</p>
+    <ul>
+      <li>Acesse: <strong>Hub → Levantamento Fitossociológico → lista de indivíduos</strong></li>
+      <li>Registre DAP (via CAP), altura, espécie e condição (Viva/Morta)</li>
+      <li>Capture GPS de cada indivíduo para georreferenciamento</li>
+      <li>Exporta planilha SINAFLOR no formato exato de importação do sistema federal</li>
+    </ul>
+
+    <div class="divider"></div>
+    <h3>4.2 Censo Florestal</h3>
+    <p>Inventário 100% de uma área definida. Todos os indivíduos com DAP ≥ DAP mínimo são registrados.</p>
+    <ul>
+      <li>Configure a <strong>Área Total (ha)</strong> em Configurações do Projeto antes de começar</li>
+      <li>Registre todos os indivíduos na lista principal</li>
+      <li>Gera densidade, área basal e volume por hectare</li>
+    </ul>
+
+    <div class="divider"></div>
+    <h3>4.3 Parcelas Fixas</h3>
+    <p>Método de amostragem por unidades fixas. Recomendado para inventários de fragmentos florestais.</p>
+    <ul>
+      <li>Crie as parcelas em <strong>Hub → Levantamento → Lista de Parcelas</strong></li>
+      <li>Informe o número, tamanho (m²) e capture as coordenadas GPS de cada parcela</li>
+      <li>Toque em uma parcela para abrir a lista de indivíduos daquela parcela</li>
+    </ul>
+    <p>Os resultados incluem Estatística Amostral (ACS) com coeficiente de variação, erro relativo e suficiência amostral.</p>
+
+    <div class="divider"></div>
+    <h3>4.4 Ponto-Quadrante (PCQM)</h3>
+    <p>Método de distância para estimativa de densidade. Cada ponto amostral possui 4 quadrantes.</p>
+    <ul>
+      <li>Crie os pontos em <strong>Hub → Levantamento → Lista de Pontos</strong></li>
+      <li>Para cada ponto, acesse os <strong>Quadrantes</strong> e registre 1 indivíduo por quadrante</li>
+      <li>Informe a distância do ponto ao indivíduo mais próximo em cada quadrante</li>
+    </ul>
+    <p>A densidade é estimada com base nas distâncias registradas, sem necessidade de definir área total.</p>
+  </div>
+</div>
+
+
+<!-- 5. Indivíduos -->
+<div class="section" id="s5">
+  <div class="section-header"><span class="num">5</span> Registrando Indivíduos</div>
+  <div class="section-body">
+    <h3>5.1 Campos do formulário</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Campo</th><th>Descrição</th><th>Obrigatório</th></tr>
+        <tr><td>Número</td><td>Gerado automaticamente ou manual</td><td>Sim</td></tr>
+        <tr><td>Espécie</td><td>Busca por nome científico, comum ou família</td><td>Sim</td></tr>
+        <tr><td>Número de Fustes</td><td>1 a 4 fustes por indivíduo</td><td>Sim</td></tr>
+        <tr><td>CAP (cm)</td><td>Circunferência à Altura do Peito — DAP calculado automaticamente</td><td>Sim</td></tr>
+        <tr><td>Altura (m)</td><td>Altura total do indivíduo</td><td>Sim</td></tr>
+        <tr><td>Condição</td><td>Viva ou Morta</td><td>Sim</td></tr>
+        <tr><td>Distância (m)</td><td>Apenas para Ponto-Quadrante</td><td>Situacional</td></tr>
+        <tr><td>Fotos</td><td>Câmera ou galeria</td><td>Não</td></tr>
+        <tr><td>GPS</td><td>Capturado automaticamente ao abrir o formulário</td><td>Não</td></tr>
+        <tr><td>Observações</td><td>Anotações livres</td><td>Não</td></tr>
+      </table>
+    </div>
+
+    <h3>5.2 Busca de espécies</h3>
+    <p>Digite pelo menos 2 caracteres do nome científico, nome comum ou família. Opções especiais:</p>
+    <ul>
+      <li>❓ <strong>Não Identificado</strong> — registra sem vínculo a espécie</li>
+      <li>🔄 <strong>Repetir Espécie</strong> — repete a última espécie registrada (agiliza trabalho em campo)</li>
+    </ul>
+
+    <h3>5.3 Múltiplos fustes</h3>
+    <p>Para árvores bifurcadas, selecione o número de fustes (2, 3 ou 4). O DAP equivalente é calculado automaticamente pela soma das áreas basais de todos os fustes.</p>
+
+    <h3>5.4 Validação inteligente</h3>
+    <p>O app alerta automaticamente quando detecta valores suspeitos:</p>
+    <ul>
+      <li>DAP abaixo do mínimo configurado</li>
+      <li>DAP acima de 150 cm (possível erro no CAP)</li>
+      <li>Altura acima de 45 m</li>
+    </ul>
+    <p>Em todos os casos, você pode confirmar o registro mesmo com o alerta.</p>
+  </div>
+</div>
+
+
+<!-- 6. Espécies -->
+<div class="section" id="s6">
+  <div class="section-header"><span class="num">6</span> Banco de Espécies</div>
+  <div class="section-body">
+    <h3>6.1 Espécies globais</h3>
+    <p>O Arboris inclui um banco com as 30 espécies mais comuns da Floresta Ombrófila Mista e Floresta Estacional, disponíveis automaticamente em todos os projetos.</p>
+
+    <h3>6.2 Bancos regionais (Pacotes por Fitofisionomia)</h3>
+    <p>Baixe em <strong>Hub → Bancos por Fitofisionomia</strong>. Requer internet apenas no download; após instalados ficam disponíveis offline.</p>
+    <div class="pkg-grid">
+      <div class="pkg-item">Caatinga nordeste (MG)</div>
+      <div class="pkg-item">Campos rupestres (MG/BA)</div>
+      <div class="pkg-item">Cerrado (GO/MT/MS)</div>
+      <div class="pkg-item">Cerrado (SP/PR/MG)</div>
+      <div class="pkg-item">F. est. decidual (RS/SC)</div>
+      <div class="pkg-item">F. est. decidual (PR)</div>
+      <div class="pkg-item">F. est. decidual (SP/RJ/MG)</div>
+      <div class="pkg-item">F. ombr. densa amaz. ocid. (AC/RO)</div>
+      <div class="pkg-item">F. ombr. densa amaz. central (AM)</div>
+      <div class="pkg-item">F. ombr. densa amaz. merid. (MT)</div>
+      <div class="pkg-item">F. ombr. densa amaz. oriental (PA/AP)</div>
+      <div class="pkg-item">F. ombr. densa (BA/ES)</div>
+      <div class="pkg-item">F. ombr. densa (RS/SC/PR)</div>
+      <div class="pkg-item">F. ombr. densa sudeste</div>
+      <div class="pkg-item">F. ombr. mista (PR/SP)</div>
+      <div class="pkg-item">F. ombr. mista (RS/SC/PR)</div>
+      <div class="pkg-item">Pampa (RS)</div>
+      <div class="pkg-item">Portugal continental</div>
+      <div class="pkg-item">Restinga (SP/PR)</div>
+      <div class="pkg-item">Restinga sul (RS/SC)</div>
+    </div>
+
+    <h3>6.3 Busca avançada</h3>
+    <p>Em <strong>Hub → Banco de Espécies</strong>, use os filtros:</p>
+    <ul>
+      <li><strong>Origem:</strong> Nativa ou Exótica</li>
+      <li><strong>Grupo Ecológico:</strong> Pioneira, Secundária Inicial, Secundária Tardia, Clímax</li>
+      <li><strong>Status IUCN:</strong> LC, NT, VU, EN, CR, NE — seleção múltipla</li>
+      <li><strong>Escopo:</strong> Banco Global, Projeto ou Pacote instalado</li>
+    </ul>
+
+    <h3>6.4 Cadastrar nova espécie</h3>
+    <p>Em <strong>Banco de Espécies → + Nova Espécie</strong>, preencha: nome científico (obrigatório), nome comum, família, origem, grupo ecológico e status IUCN. Espécies cadastradas ficam disponíveis para levantamentos futuros.</p>
+  </div>
+</div>
+
+
+<!-- 7. Área de Estudo -->
+<div class="section" id="s7">
+  <div class="section-header"><span class="num">7</span> Área de Estudo</div>
+  <div class="section-body">
+    <p>Acesse <strong>Hub → Área de Estudo</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Campo</th><th>Uso</th></tr>
+        <tr><td>Nome da Área</td><td>Identificação no relatório</td></tr>
+        <tr><td>Tamanho (ha)</td><td>Obrigatório para Censo Florestal</td></tr>
+        <tr><td>Matrícula do Imóvel</td><td>Aparece na Caracterização da Área do relatório</td></tr>
+        <tr><td>CAR</td><td>Cadastro Ambiental Rural</td></tr>
+        <tr><td>Endereço / Localização</td><td>Descrição da localização do imóvel</td></tr>
+        <tr><td>Coordenadas GPS</td><td>Ponto central da área para o mapa</td></tr>
+        <tr><td>Fotos da Área</td><td>Aparecem no Relatório Fotográfico</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- 8. Mapas -->
+<div class="section" id="s8">
+  <div class="section-header"><span class="num">8</span> Mapas e GPS</div>
+  <div class="section-body">
+    <h3>8.1 Mapa Interativo (Leaflet)</h3>
+    <p>Acesse <strong>Hub → Visualização → Mapa Interativo</strong>:</p>
+    <ul>
+      <li>Visualização em mapa de satélite com camadas sobrepostas</li>
+      <li>Camadas ativáveis: Indivíduos, Parcelas, Pontos PCQM, Polígono da área, POIs</li>
+      <li>Toque em um marcador para ver detalhes do indivíduo ou POI</li>
+      <li>Polígono da área: defina os vértices no mapa ou pela tela de Área de Estudo</li>
+    </ul>
+    <div class="callout callout-tip">
+      <strong>💡 Uso offline do mapa</strong>
+      Para ter a imagem de satélite disponível sem internet, acesse o Mapa Interativo em local com sinal, abra e aproxime a imagem na área do levantamento para gravá-la em cache.
+    </div>
+
+    <h3>8.2 Coordenadas GPS (tela legado)</h3>
+    <p><strong>Hub → Coordenadas GPS</strong> exibe todos os indivíduos com GPS registrado. Toque em qualquer item para abrir a imagem de satélite.</p>
+
+    <h3>8.3 Pontos de Interesse (POIs)</h3>
+    <p>Acesse <strong>Hub → Pontos de Interesse</strong>:</p>
+    <ul>
+      <li>Tipos: Nascente, Córrego, Lago/Represa, Estrada, Edificação, Limite, Outros</li>
+      <li>Cada POI tem nome, tipo, descrição, coordenadas GPS e fotos</li>
+      <li>POIs aparecem no Mapa Interativo e no Relatório Fotográfico</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- 9. Resultados -->
+<div class="section" id="s9">
+  <div class="section-header"><span class="num">9</span> Resultados, Cálculos e Gráficos</div>
+  <div class="section-body">
+    <h3>9.1 Resultados e Cálculos <em style="font-size:12px;color:#888;">(Plano PRO)</em></h3>
+    <p>Acesse <strong>Hub → Análise → Resultados e Cálculos</strong>:</p>
+    <ul>
+      <li><strong>Resumo:</strong> total de indivíduos, espécies, densidade e área basal por hectare</li>
+      <li><strong>Índices de Diversidade:</strong> Shannon H', Pielou J', Simpson 1-D, Quociente de Mistura</li>
+      <li><strong>Estatística Amostral ACS</strong> (Parcelas Fixas): CV, erro relativo, IC 95%, suficiência amostral</li>
+      <li><strong>Estrutura Vertical CONAMA 392/2007:</strong> estratos Inferior (&lt;5m), Médio (5–12m), Superior (≥12m)</li>
+      <li><strong>Tabela Fitossociológica:</strong> DA, DR, FA, FR, DoA, DoR, VC%, VI, VIA por espécie</li>
+    </ul>
+
+    <h3>9.2 Gráficos <em style="font-size:12px;color:#888;">(Plano PRO)</em></h3>
+    <p>Acesse <strong>Hub → Visualização → Gráficos</strong>:</p>
+    <div class="tab-list">
+      <div class="tab-item"><strong>📏 DAP</strong> — Distribuição diamétrica por classe + tabela de frequências</div>
+      <div class="tab-item"><strong>🌳 Espécies</strong> — Abundância top 8 + pizza proporcional top 5</div>
+      <div class="tab-item"><strong>📐 Altura</strong> — Distribuição por classe + estratos CONAMA</div>
+      <div class="tab-item"><strong>🌿 Família</strong> — Abundância e riqueza por família botânica</div>
+      <div class="tab-item"><strong>📊 Fitossoc.</strong> — VI, VIA, DoR, DR, Área Basal por espécie (top 10)</div>
+    </div>
+    <div class="callout callout-green">
+      <strong>📊 Exportar Gráficos</strong>
+      Na aba Fitossoc., toque em <strong>Exportar Gráficos (HTML)</strong> para gerar um arquivo com todos os gráficos em SVG interativo, abrível em qualquer navegador e imprimível como PDF.
+    </div>
+  </div>
+</div>
+
+
+<!-- 10. Histórico -->
+<div class="section" id="s10">
+  <div class="section-header"><span class="num">10</span> Histórico de Edições</div>
+  <div class="section-body">
+    <p>O Arboris registra automaticamente todas as criações e edições de indivíduos.</p>
+    <ul>
+      <li>Abra a <strong>Lista de Indivíduos</strong> do projeto</li>
+      <li>Toque no ícone 📋 ao lado de qualquer indivíduo</li>
+      <li>Visualize a linha do tempo com data, hora e o que foi alterado</li>
+    </ul>
+    <p>A tela de histórico mostra um snapshot completo em cada evento, com diff visual: campos alterados em vermelho (valor anterior) e verde (novo valor).</p>
+    <div class="callout callout-info">
+      <strong>ℹ️ Observação</strong>
+      O histórico é gravado a partir da versão 1.3.0. Indivíduos registrados antes dessa versão não possuem histórico.
+    </div>
+  </div>
+</div>
+
+
+<!-- 11. Relatórios -->
+<div class="section" id="s11">
+  <div class="section-header"><span class="num">11</span> Relatórios</div>
+  <div class="section-body">
+    <h3>11.1 Relatório Técnico Word</h3>
+    <p>Acesse <strong>Hub → Análise → Relatório Técnico Word</strong>. O documento inclui:</p>
+    <ul>
+      <li>Capa com dados do projeto, cliente e responsável técnico</li>
+      <li>Sumário automático</li>
+      <li>Introdução, Caracterização da Área e Metodologia</li>
+      <li>Tabela de coordenadas GPS em DMS</li>
+      <li>Resultados com tabela fitossociológica completa</li>
+      <li>Índices de diversidade com interpretação</li>
+      <li>Distribuição diamétrica e estrutura vertical</li>
+      <li>Conclusões e Referências Bibliográficas</li>
+      <li>Espaço para assinatura do responsável técnico</li>
+    </ul>
+
+    <h3>11.2 Relatório Técnico PDF</h3>
+    <p>Na mesma tela, toque em <strong>📋 Gerar PDF</strong> (não editável). Ideal para:</p>
+    <ul>
+      <li>Envio a órgãos ambientais (IBAMA, SEMA, IAT, etc.)</li>
+      <li>Assinatura digital</li>
+      <li>Arquivo formal não editável</li>
+    </ul>
+
+    <h3>11.3 Relatório Fotográfico</h3>
+    <p>Acesse <strong>Hub → Análise → Relatório Fotográfico</strong>. Inclui:</p>
+    <ul>
+      <li>Fotos da Área de Estudo com legendas</li>
+      <li>Fotos dos indivíduos agrupadas por árvore</li>
+      <li>Fotos dos Pontos de Interesse</li>
+      <li>Layout com 2 fotos por linha</li>
+    </ul>
+    <div class="callout callout-green">
+      <strong>⚡ Otimização de memória</strong>
+      As fotos são comprimidas automaticamente, permitindo gerar relatórios com 50+ fotos mesmo em celulares com pouca RAM.
+    </div>
+
+    <h3>11.4 Templates de Relatório</h3>
+    <p>Acesse <strong>Hub → Análise → Relatório Técnico → 🎨 Personalizar Template</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Elemento</th><th>Opções</th></tr>
+        <tr><td>Logo da empresa</td><td>Selecione da galeria (PNG ou JPG)</td></tr>
+        <tr><td>Paleta de cores</td><td>5 paletas predefinidas + personalizada</td></tr>
+        <tr><td>Fonte</td><td>Calibri, Arial, Times New Roman, Georgia</td></tr>
+        <tr><td>Tamanho da fonte</td><td>10pt, 11pt, 12pt</td></tr>
+        <tr><td>Template favorito</td><td>Marcado com ⭐, carregado automaticamente</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- 12. Exportação -->
+<div class="section" id="s12">
+  <div class="section-header"><span class="num">12</span> Central de Exportação</div>
+  <div class="section-body">
+    <p>Acesse <strong>Hub → Análise → Central de Exportação</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Formato</th><th>Conteúdo</th><th>Uso</th></tr>
+        <tr><td>📦 ZIP Completo</td><td>CSV + KML + HTML gráficos + fotos + LEIAME.txt</td><td>Backup completo</td></tr>
+        <tr><td>📊 CSV Dados Brutos</td><td>Todos os indivíduos com todos os campos</td><td>Excel, R, Python</td></tr>
+        <tr><td>📊 CSV Resultados</td><td>Índices fitossociológicos por espécie</td><td>Análise estatística</td></tr>
+        <tr><td>📋 SINAFLOR Isoladas</td><td>Formato SINAFLOR para árvores isoladas</td><td>Importar no IBAMA</td></tr>
+        <tr><td>📋 SINAFLOR Volume</td><td>Formato SINAFLOR com volume por espécie</td><td>Importar no IBAMA</td></tr>
+        <tr><td>🗺️ KML</td><td>Indivíduos, parcelas, polígono e POIs</td><td>Google Earth, QGIS</td></tr>
+        <tr><td>📈 HTML Gráficos</td><td>Gráficos interativos em SVG</td><td>Relatórios e apresentações</td></tr>
+      </table>
+    </div>
+    <div class="callout callout-green">
+      <strong>📦 Backup ZIP</strong>
+      O ZIP completo inclui todas as fotos comprimidas e um arquivo LEIAME.txt explicando cada arquivo gerado. É a opção recomendada para arquivamento do projeto.
+    </div>
+  </div>
+</div>
+
+
+<!-- 13. Privacidade -->
+<div class="section" id="s13">
+  <div class="section-header"><span class="num">13</span> Segurança e Privacidade</div>
+  <div class="section-body">
+    <ul>
+      <li>Todos os dados ficam armazenados localmente no banco SQLite do dispositivo</li>
+      <li>Nenhum dado é enviado a servidores externos</li>
+      <li>Não há coleta de dados pessoais ou de projeto</li>
+      <li>Coletamos apenas analytics anônimos para melhoria do app (sem identificação)</li>
+      <li>O backup ZIP pode ser transferido para outro dispositivo ou armazenado na nuvem manualmente</li>
+    </ul>
+    <div class="callout callout-warn">
+      <strong>⚠️ Atenção</strong>
+      Ao desinstalar o aplicativo, todos os projetos e dados são permanentemente excluídos. Sempre faça backup via Central de Exportação antes de desinstalar ou trocar de celular.
+    </div>
+  </div>
+</div>
+
+
+<!-- 14. FAQ -->
+<div class="section" id="s14">
+  <div class="section-header"><span class="num">14</span> Perguntas Frequentes</div>
+  <div class="section-body">
+
+    <h3>O app funciona sem internet?</h3>
+    <p>Sim. O Arboris é 100% offline. A internet é necessária apenas para baixar pacotes de espécies, para compras in-app (Plano PRO) e para visualização da imagem de satélite.</p>
+
+    <h3>Como transfiro projetos para outro celular?</h3>
+    <p>No momento não é possível transferir projetos entre celulares. A funcionalidade de importação/compartilhamento de projetos está planejada para versão futura.</p>
+
+    <h3>Como transfiro arquivos para o computador?</h3>
+    <p>Use a <strong>Central de Exportação → ZIP Completo</strong> para backup, ou exporte os relatórios via e-mail, WhatsApp ou Google Drive.</p>
+
+    <h3>Como calculo o DAP a partir do CAP?</h3>
+    <p>O app calcula automaticamente: <code>DAP (cm) = CAP (cm) ÷ π</code>. Para múltiplos fustes, o DAP equivalente é calculado pela soma das áreas basais.</p>
+
+    <h3>O que é o erro relativo na Estatística ACS?</h3>
+    <p>É a precisão da amostragem por parcelas. Um erro relativo ≤ 10% indica amostragem suficiente. O app mostra quantas parcelas adicionais são necessárias caso o erro seja maior.</p>
+
+    <h3>Posso usar o banco de espécies em vários projetos?</h3>
+    <p>Os pacotes regionais instalados ficam disponíveis em todos os projetos automaticamente. Espécies cadastradas manualmente são específicas de cada projeto (compartilhamento entre projetos está previsto para versões futuras).</p>
+
+    <h3>Como ativo o modo escuro?</h3>
+    <p>O Arboris segue o tema do Android. Ative em: <strong>Configurações do Android → Tela → Tema Escuro</strong>.</p>
+
+    <h3>O relatório Word é editável?</h3>
+    <p>Sim. O arquivo .docx pode ser aberto no Microsoft Word, LibreOffice ou Google Docs. O PDF gerado é não editável, recomendado para envio oficial.</p>
+  </div>
+</div>
+
+
+<!-- 15. Referências -->
+<div class="section" id="s15">
+  <div class="section-header"><span class="num">15</span> Referências Técnicas</div>
+  <div class="section-body">
+    <h3>15.1 Fórmulas utilizadas</h3>
+    <div class="formula">DAP (cm) = CAP ÷ π</div>
+    <div class="formula">Área Basal (m²) = π × (DAP/200)²</div>
+    <div class="formula">Volume (m³) = AB × Altura × Fator de Forma</div>
+    <div class="formula">Volume (mst) = Volume (m³) × Fator de Conversão</div>
+    <div class="formula">DA = N indivíduos da espécie / Área amostrada (ha)</div>
+    <div class="formula">DoA = AB total da espécie / Área amostrada (ha)</div>
+    <div class="formula">Shannon H' = −Σ (pi × ln pi)</div>
+    <div class="formula">Pielou J' = H' / ln(S)  — onde S = nº de espécies</div>
+    <div class="formula">Simpson (1-D) = 1 − Σ (ni(ni−1) / N(N−1))</div>
+
+    <h3>15.2 Estratificação Vertical (CONAMA 392/2007)</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Estrato</th><th>Altura</th></tr>
+        <tr><td>Inferior</td><td>HT &lt; 5 metros</td></tr>
+        <tr><td>Médio</td><td>5 m ≤ HT &lt; 12 metros</td></tr>
+        <tr><td>Superior</td><td>HT ≥ 12 metros</td></tr>
+      </table>
+    </div>
+
+    <h3>15.3 Status de Conservação IUCN</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Sigla</th><th>Significado</th></tr>
+        <tr><td>LC</td><td>Least Concern — Menor Preocupação</td></tr>
+        <tr><td>NT</td><td>Near Threatened — Quase Ameaçada</td></tr>
+        <tr><td>VU</td><td>Vulnerable — Vulnerável</td></tr>
+        <tr><td>EN</td><td>Endangered — Em Perigo</td></tr>
+        <tr><td>CR</td><td>Critically Endangered — Criticamente em Perigo</td></tr>
+        <tr><td>NE</td><td>Not Evaluated — Não Avaliada</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  🌳 Arboris — App de Levantamento Florestal<br>
+  Versão 1.3.5 · © 2026 Belenzier Consultoria
+</div>
+
+</body>
+</html>
